@@ -32,6 +32,15 @@ class Ui_MainWindow(object):
         self.Filter = QtWidgets.QTextEdit(self.centralwidget)
         self.Filter.setGeometry(QtCore.QRect(120, 30, 301, 21))
         self.Filter.setObjectName("Filter")
+        self.Start = QtWidgets.QPushButton(self.centralwidget)
+        self.Start.setGeometry(QtCore.QRect(470, 30, 75, 31))
+        self.Start.setObjectName("Start")
+        self.Pause = QtWidgets.QPushButton(self.centralwidget)
+        self.Pause.setGeometry(QtCore.QRect(580, 30, 75, 31))
+        self.Pause.setObjectName("Pause")
+        self.Stop = QtWidgets.QPushButton(self.centralwidget)
+        self.Stop.setGeometry(QtCore.QRect(680, 30, 75, 31))
+        self.Stop.setObjectName("Stop")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 23))
@@ -47,3 +56,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.Start.setText(_translate("MainWindow", "启动"))
+        self.Pause.setText(_translate("MainWindow", "暂停"))
+        self.Stop.setText(_translate("MainWindow", "终止"))

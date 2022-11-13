@@ -64,6 +64,45 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="Start">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>30</y>
+      <width>75</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>启动</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Pause">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>30</y>
+      <width>75</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>暂停</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Stop">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>30</y>
+      <width>75</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>终止</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

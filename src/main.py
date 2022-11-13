@@ -1,20 +1,12 @@
 # TangBin
-from designer.UI_MainWindow import Ui_MainWindow
+from src.designer.UI_Components import UI_Components
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication
 
 if __name__ == '__main__':
     # application 对象
     app = QApplication(sys.argv)
-
-    # QMainWindow对象
-    mainwindow = QMainWindow()
-
-    # 这是qt designer实现的Ui_MainWindow类
-    ui_components = Ui_MainWindow()
-    # 调用setupUi()方法，注册到QMainWindwo对象
-    ui_components.setupUi(mainwindow)
-
+    ui_components = UI_Components()
     # 显示
-    mainwindow.show()
+    ui_components.show()
     sys.exit(app.exec_())
