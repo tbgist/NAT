@@ -1,12 +1,12 @@
-# TangBin
-from src.designer.UI_Components import UI_Components
+# Coded by TangBin
+from src.designer.MainWindow import MainWindow
 import sys
 from PyQt5.QtWidgets import QApplication
 
 if __name__ == '__main__':
     # application 对象
     app = QApplication(sys.argv)
-    ui_components = UI_Components()
+    mainwindow = MainWindow()
     # 显示
-    ui_components.show()
+    mainwindow.show()
     sys.exit(app.exec_())
