@@ -1,4 +1,4 @@
-# TangBin
+# Coded by TangBin
 from src.designer.UI_Components import UI_Components
 import sys
 from PyQt5.QtWidgets import QApplication
