@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdabac43-7da6-4b7c-91ab-69dfc44e32b7" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NAT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/NAT.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/analysis/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/analysis/analysis.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +45,7 @@
       <recent name="E:\Repositories\NAT\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.analysis">
+  <component name="RunManager" selected="Python.main (1)">
     <configuration name="UI_Components" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="NAT" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -157,9 +156,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.analysis" />
-        <item itemvalue="Python.text" />
         <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.text" />
+        <item itemvalue="Python.analysis" />
         <item itemvalue="Python.UI_Components" />
         <item itemvalue="Python.UI_MainWindow" />
       </list>
