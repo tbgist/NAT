@@ -1,1 +1,59 @@
-2048
+###[ Ethernet ]### 
+  dst       = 01:00:5e:00:00:fb
+  src       = b0:25:aa:4e:8d:85
+  type      = IPv4
+###[ IP ]### 
+     version   = 4
+     ihl       = 5
+     tos       = 0x0
+     len       = 172
+     id        = 8316
+     flags     = 
+     frag      = 0
+     ttl       = 1
+     proto     = udp
+     chksum    = 0x433b
+     src       = 125.216.246.182
+     dst       = 224.0.0.251
+     \options   \
+###[ UDP ]### 
+        sport     = 5353
+        dport     = 5353
+        len       = 152
+        chksum    = 0xb051
+###[ DNS ]### 
+           id        = 0
+           qr        = 1
+           opcode    = QUERY
+           aa        = 1
+           tc        = 0
+           rd        = 0
+           ra        = 0
+           z         = 0
+           ad        = 0
+           cd        = 0
+           rcode     = ok
+           qdcount   = 0
+           ancount   = 1
+           nscount   = 0
+           arcount   = 1
+           qd        = None
+           \an        \
+            |###[ DNS Resource Record ]### 
+            |  rrname    = 'bab130a1-292d-4108-9666-ebf7dde809e4.local.'
+            |  type      = AAAA
+            |  rclass    = 32769
+            |  ttl       = 120
+            |  rdlen     = None
+            |  rdata     = 2001:250:3000:3cc3:d8a3:a2cb:f2f8:6b96
+           ns        = None
+           \ar        \
+            |###[ DNS NSEC Resource Record ]### 
+            |  rrname    = 'bab130a1-292d-4108-9666-ebf7dde809e4.local.'
+            |  type      = NSEC
+            |  rclass    = 32769
+            |  ttl       = 120
+            |  rdlen     = None
+            |  nextname  = 'bab130a1-292d-4108-9666-ebf7dde809e4.local.'
+            |  typebitmaps= ['AAAA']
+

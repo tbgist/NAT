@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdabac43-7da6-4b7c-91ab-69dfc44e32b7" name="Changes" comment="Changes" />
+    <list default="true" id="fdabac43-7da6-4b7c-91ab-69dfc44e32b7" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/designer/MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/designer/MainWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/designer/StrPack.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/designer/UI_MainWindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/designer/UI_MainWindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/designer/UI_MainWindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/src/designer/UI_MainWindow.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/temp.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/temp.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -183,7 +190,10 @@
       <workItem from="1668345759610" duration="1193000" />
       <workItem from="1668911243496" duration="16414000" />
       <workItem from="1668931913024" duration="1329000" />
-      <workItem from="1668933611353" duration="356000" />
+      <workItem from="1668933611353" duration="548000" />
+      <workItem from="1668937598495" duration="11010000" />
+      <workItem from="1668992265462" duration="103000" />
+      <workItem from="1669011158208" duration="33000" />
     </task>
     <servers />
   </component>
@@ -206,7 +216,7 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/UI_MainWindow_py$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1668933656051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/UI_MainWindow_py$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1668949098683" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/UI_MainWindow_py$UI_Components__1_.coverage" NAME="UI_Components (1) Coverage Results" MODIFIED="1668912257757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/designer" />
   </component>
 </project>

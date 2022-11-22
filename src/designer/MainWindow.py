@@ -3,18 +3,8 @@ import sys
 from src.designer.UI_MainWindow import Ui_MainWindow
 from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtCore import QModelIndex
-from src.analysis.analysis import pcap
 from scapy.all import *
-
-
-def to_string(x):
-    f = open("./temp.txt", "w")
-    print(x)
-    print(x, file=f)
-    # string = f.read()
-    f.close()
-    # return string
+from scapy.layers.inet import Ether, TCP, UDP, ICMP
 
 
 # MainWindow继承qt designer生成的Ui_MainWindow类
@@ -57,7 +47,20 @@ class MainWindow(Ui_MainWindow):
 
     def display(self, index):
         ind = index.row()
-        self.Summary.setText(self.pkt[ind])
+        p = self.pkt[ind]
+        saved_stdout = sys.stdout
+        with open('temp.txt', 'w+') as file:
+            sys.stdout = file
+            p.show()
+        sys.stdout = saved_stdout
+        with open('temp.txt', 'r') as file:
+            details = file.read()
+        self.Details.setText(details)
+        info = ""
+        while p.name != "NoPayload":
+            info = info + p.name + ": " + p.mysummary() + "\n"
+            p = p.payload
+        self.Summary.setText(info)
 
     def save(self):
         return self.save_as()
@@ -71,10 +74,24 @@ class MainWindow(Ui_MainWindow):
             self.pkt = rdpcap(path[0])
         else:
             return
-        for p in self.pkt[:5]:
-            self.model.appendRow([
-                QStandardItem("IPV{}".format(p.payload.version)),
-                QStandardItem(p.payload.src),
-                QStandardItem(p.payload.dst),
-                ]
-            )
+        arp = (0x0806,)
+        ip = (0x0080, 0x0800, 0x86DD, 0xDD68)
+        for p in self.pkt:
+            if p.type in arp:
+                self.model.appendRow([
+                    QStandardItem("ARP"),
+                    QStandardItem(p.psrc),
+                    QStandardItem(p.pdst)
+                ])
+            elif p.type in ip:
+                self.model.appendRow([
+                    QStandardItem("IPv{}".format(p.payload.version)),
+                    QStandardItem(p.payload.src),
+                    QStandardItem(p.payload.dst),
+                ])
+            else:
+                self.model.appendRow([
+                    QStandardItem("Ethernet"),
+                    QStandardItem(p.src),
+                    QStandardItem(p.dst),
+                ])

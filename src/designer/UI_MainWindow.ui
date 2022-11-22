@@ -19,7 +19,7 @@
      <rect>
       <x>40</x>
       <y>360</y>
-      <width>491</width>
+      <width>361</width>
       <height>191</height>
      </rect>
     </property>
@@ -27,9 +27,9 @@
    <widget class="QTextEdit" name="Summary">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>420</x>
       <y>360</y>
-      <width>241</width>
+      <width>371</width>
       <height>191</height>
      </rect>
     </property>
