@@ -1,77 +1,153 @@
+# coded by 唐斌
+import os.path
+import sys
+from src.packagecapture.package_capture import Packet_capture
+from src.designer.UI_MainWindow import Ui_MainWindow
+from scapy.arch import get_windows_if_list
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHeaderView
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from scapy.all import *
-from concurrent.futures import ThreadPoolExecutor
-import time
-import psutil
-import threading
-import os
-import copy
+from src.analysis.analysis import pcap
 
 
-class Packet_capture:
+# MainWindow继承qt designer生成的Ui_MainWindow类
+class MainWindow(Ui_MainWindow, Packet_capture):
     def __init__(self):
-        self.run_time_start = None
-        self.packets = []  # 临时存放抓包文件的列表
-        self.t = 10  # 一次抓包的时长
-        self.filter_ = None  # 过滤器
-        self.netcard = 'Intel(R) Wi-Fi 6 AX201 160MHz'  # 网卡
-        self.pid = os.getpid()  # 进程的pid
-        self.p = psutil.Process(self.pid)  # 进程
-        self.pnum = 0  # 保存的文件序号
-        self.count = psutil.cpu_count()  # 计算机的cpu数，用于计算cpu使用率
-        self.pool = ThreadPoolExecutor(20)  # 用于保存文件的线程池
-        self.start_button = False  # 按键状态
-        self.run_time = 0  # 起始时间、结束时间和运行时间
-        self.start_time = 0
-        self.end_time = 0
-        self.run_time_start = 0  # 方便计算
-        self.run_time_end = 0
-        self.run_time = 0
-        self.button = False
-        self.path = "./"
-        self.number = 1
+        super(MainWindow, self).__init__()
+        # QMainWindow对象
+        self.mainwindow = QMainWindow()
+        self.setupUi(self.mainwindow)
+        self.model = QStandardItemModel()
+        self.model.setHorizontalHeaderLabels(["type", "src", "dst"])
+        self.PackageList.setModel(self.model)
+        self.PackageList.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # 获得所有网卡
+        cards = get_windows_if_list()
+        self.card_names = []
+        for card in cards:
+            if card['ips'] and card['name'][:8] != 'Loopback':
+                self.card_names.append(card['name'])
+        self.Type.addItems(self.card_names)
+        self.netcard = self.card_names[self.Type.currentIndex()]
+        self.Type.currentIndexChanged.connect(self.change_card)
+        # 设置过滤器
+        self.Filter.textChanged.connect(self.change_filter)
+        # 设置默认文件路径
+        self.save_path = "../../packages/"
+        # 打开文件
+        self.actionopen.triggered.connect(self.open)
+        # 查看报文信息
+        self.PackageList.clicked.connect(self.display)
+        # 保存文件
+        self.pkt = None
+        self.actionsave.triggered.connect(self.save)
+        # 另存为
+        self.actionsave_as.triggered.connect(self.save_as)
+        # 点击开始按钮开始/暂停抓包
+        self.is_start = False
+        self.count = 1
+        self.Start.clicked.connect(self.start)
+        self.read_thread = threading.Thread(target=self.read)
+        # 显示统计数据
+        self.Plot.setEnabled(True)
+        self.Plot.clicked.connect(self.plot)
 
-    def savep(self):  # 保存文件函数
-        self.pnum += 1
-        pname = "%stest%d.pcap" % (self.path, self.pnum)
-        # 生成文件名
+    def start(self):
+        if self.Start.text() == "启动":
+            self.is_start = True
+            self.read_thread = threading.Thread(target=self.read)
+            self.read_thread.start()
+            self.Start.setText("暂停")
+            self.start_sniff()
+        else:
+            self.is_start = False
+            self.Start.setText("启动")
+            self.pause_sniff()
 
-        packets_ = copy.copy(self.packets)
-        # 复制临时文件用于保存，同时清空原来的列表用于存放新的文件
-        self.pool.submit(lambda pro: wrpcap(*pro), (pname, packets_))
-        # 选择线程池中的一个空闲线程，将列表里的临时文件保存到硬盘
+    def read(self):
+        while self.is_start:
+            path = './test' + str(self.count) + '.pcap'
+            print(os.path.abspath(path))
+            print(path)
+            if os.path.exists(path):
+                temp_pkt = rdpcap(path)
+                if self.pkt is None:
+                    self.pkt = temp_pkt
+                else:
+                    self.pkt = self.pkt + temp_pkt
+                self.show_pkt(temp_pkt)
+                self.count = self.count + 1
 
-        with open(self.p.name() + ' PID_' + str(self.pid) + "(" + str(self.number) + ")" + ".csv", "a+") as f:
-            current_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            cpu_percent = self.p.cpu_percent() / self.count
-            mem_percent = self.p.memory_percent()
-            line = current_time + ',' + str(cpu_percent) + ',' + str(mem_percent)
-            f.write(line + "\n")
-        # 记录cpu和内存使用情况
+    def show(self):
+        self.mainwindow.show()
 
-    def getp(self, x):  # 将抓包文件临时保存到列表
-        self.packets.append(x)
+    def change_card(self, index):
+        self.netcard = self.card_names[self.Type.currentIndex()]
 
-    def start_sniff_(self):
-        while self.button:
-            self.packets.clear()
-            sniff(prn=self.getp, timeout=self.t, filter=self.filter_, iface=self.netcard,
-                  stop_filter=lambda x: not self.button)
-            self.savep()  # 抓包、保存并判断什么时候结束
+    def change_filter(self):
+        self.filter_ = self.Filter.toPlainText()
 
-    def start_sniff(self):  # 开始抓包
-        with open(self.p.name() + ' PID_' + str(self.pid) + "(" + str(self.number) + ")" + ".csv", "a+") as f:
-            f.write("时间,cpu占用率,内存占用率\n")
-        self.number += 1
-        self.button = True
-        self.run_time_start = time.time()
-        self.start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(self.run_time_start))
-        # 记录时间
-        t1 = threading.Thread(target=self.start_sniff_)
-        t1.start()
+    def display(self, index):
+        ind = index.row()
+        p = self.pkt[ind]
+        saved_stdout = sys.stdout
+        with open('temp.txt', 'w+', encoding="utf8") as file:
+            sys.stdout = file
+            p.show()
+        sys.stdout = saved_stdout
+        with open('temp.txt', 'r', encoding="utf8") as file:
+            details = file.read()
+        self.Details.setText(details)
+        info = ""
+        while p.name != "NoPayload":
+            info = info + p.name + ": " + p.mysummary() + "\n"
+            p = p.payload
+        self.Summary.setText(info)
 
-    def pause_sniff(self):  # 停止抓包
-        self.button = False
-        self.run_time_end = time.time()
-        self.end_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(self.run_time_end))
-        self.run_time = self.run_time_end - self.run_time_start
-        # 记录时间
+    def plot(self):
+        p = pcap()
+        if self.pkt is not None:
+            p.sum()
+            p.pic()
+        else:
+            path, _ = QFileDialog.getOpenFileNames(self.mainwindow, "打开文件", self.save_path, "Pcap Files (*.pcap)")
+            p.sum(path[0])
+            p.pic()
+
+    def save(self):
+        return self.save_as()
+
+    def save_as(self):
+        path = QFileDialog.getSaveFileName(self.mainwindow, '保存文件', '', 'Pcap Files (*.pcap)')
+        wrpcap(path[0], self.pkt)
+
+    def open(self):
+        path, _ = QFileDialog.getOpenFileNames(self.mainwindow, "打开文件", self.save_path, "Pcap Files (*.pcap)")
+        if len(path):
+            self.pkt = rdpcap(path[0])
+        else:
+            return
+        self.show_pkt(self.pkt)
+
+    def show_pkt(self, pkt):
+        arp = (0x0806,)
+        ip = (0x0080, 0x0800, 0x86DD, 0xDD68)
+        for p in pkt:
+            if p.type in arp:
+                self.model.appendRow([
+                    QStandardItem("ARP"),
+                    QStandardItem(p.psrc),
+                    QStandardItem(p.pdst)
+                ])
+            elif p.type in ip:
+                self.model.appendRow([
+                    QStandardItem("IPv{}".format(p.payload.version)),
+                    QStandardItem(p.payload.src),
+                    QStandardItem(p.payload.dst),
+                ])
+            else:
+                self.model.appendRow([
+                    QStandardItem("Ethernet"),
+                    QStandardItem(p.src),
+                    QStandardItem(p.dst),
+                ])

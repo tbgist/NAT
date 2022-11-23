@@ -1,3 +1,4 @@
+# coded by 丁志国
 import struct
 import gc
 from scapy.all import *
@@ -71,11 +72,11 @@ class pcap():
     def sum(self, addr=default):
         if addr == default:  # 打开默认保存的文件
             num = 1
-            pkt = rdpcap("pcap1.pcap")  # 循环打开文件
+            pkt = rdpcap("./test1.pcap")  # 循环打开文件
             while True:
                 try:
                     num += 1
-                    file_name = "pcap%d.pcap" % num
+                    file_name = "./test%d.pcap" % num
                     pkts = rdpcap(file_name)
                     pkt = pkt + pkts
                     self.stat(pkts)
@@ -151,7 +152,7 @@ class pcap():
 
 
 if __name__ == '__main__':
-    s = r'D:\Network\NAT\packages\long2.pcap'  # input('请输入文件路径')
+    s = r'../test1.pcap'  # input('请输入文件路径')
     a = pcap()
     a.sum(s)
     a.pic()

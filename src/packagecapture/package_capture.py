@@ -1,3 +1,4 @@
+# coded by 陈子睿
 from scapy.all import *
 from concurrent.futures import ThreadPoolExecutor
 import time
@@ -13,7 +14,7 @@ class Packet_capture:
         self.packets = []  # 临时存放抓包文件的列表
         self.t = 10  # 一次抓包的时长
         self.filter_ = None  # 过滤器
-        self.netcard = 'Intel(R) Wi-Fi 6 AX201 160MHz'  # 网卡
+        self.netcard = '以太网'  # 网卡
         self.pid = os.getpid()  # 进程的pid
         self.p = psutil.Process(self.pid)  # 进程
         self.pnum = 0  # 保存的文件序号
@@ -28,7 +29,7 @@ class Packet_capture:
         self.run_time = 0
         self.button = False
         self.path = "./"
-        self.number = 1
+        self.number = 0
 
     def savep(self):  # 保存文件函数
         self.pnum += 1
@@ -59,9 +60,9 @@ class Packet_capture:
             self.savep()  # 抓包、保存并判断什么时候结束
 
     def start_sniff(self):  # 开始抓包
+        self.number += 1
         with open(self.p.name() + ' PID_' + str(self.pid) + "(" + str(self.number) + ")" + ".csv", "a+") as f:
             f.write("时间,cpu占用率,内存占用率\n")
-        self.number += 1
         self.button = True
         self.run_time_start = time.time()
         self.start_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(self.run_time_start))

@@ -1,31 +1,48 @@
 ###[ Ethernet ]### 
-  dst       = 0c:da:41:66:2d:d5
-  src       = f8:75:a4:da:8c:d8
+  dst       = 01:00:5e:00:00:fb
+  src       = 98:8f:e0:62:c0:04
   type      = IPv4
 ###[ IP ]### 
      version   = 4
      ihl       = 5
      tos       = 0x0
-     len       = 52
-     id        = 8320
-     flags     = DF
+     len       = 56
+     id        = 42330
+     flags     = 
      frag      = 0
-     ttl       = 64
-     proto     = tcp
-     chksum    = 0x0
-     src       = 125.216.246.2
-     dst       = 142.251.42.234
+     ttl       = 1
+     proto     = udp
+     chksum    = 0xbf5d
+     src       = 125.216.246.41
+     dst       = 224.0.0.251
      \options   \
-###[ TCP ]### 
-        sport     = 3401
-        dport     = https
-        seq       = 1652236994
-        ack       = 0
-        dataofs   = 8
-        reserved  = 0
-        flags     = S
-        window    = 64240
-        chksum    = 0x2de7
-        urgptr    = 0
-        options   = [('MSS', 1460), ('NOP', None), ('WScale', 8), ('NOP', None), ('NOP', None), ('SAckOK', b'')]
+###[ UDP ]### 
+        sport     = 5353
+        dport     = 5353
+        len       = 36
+        chksum    = 0x6c24
+###[ DNS ]### 
+           id        = 0
+           qr        = 0
+           opcode    = QUERY
+           aa        = 0
+           tc        = 0
+           rd        = 0
+           ra        = 0
+           z         = 0
+           ad        = 0
+           cd        = 0
+           rcode     = ok
+           qdcount   = 1
+           ancount   = 0
+           nscount   = 0
+           arcount   = 0
+           \qd        \
+            |###[ DNS Question Record ]### 
+            |  qname     = 'wpad.local.'
+            |  qtype     = A
+            |  qclass    = IN
+           an        = None
+           ns        = None
+           ar        = None
 
