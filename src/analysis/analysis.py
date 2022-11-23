@@ -137,22 +137,17 @@ class pcap():
         plt.axis('off')
         # 生成DNS随时间占比的折线图
         line = plt.subplot(224)
-        line.set_title('DNS报文占比随时间走势')
-        line = plt.plot(self.stamp,
-                        self.ratio,
-                        linewidth=0.5,
-                        color='blue')
-        plt.xlabel('时间')
-        plt.ylabel('比例')
-        d = len(self.stamp) // 3  # 控制横坐标间隔数量
-        plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(d))  # 横坐标密度
+        if(self.dns>0):
+            line.set_title('DNS报文占比随时间走势')
+            line = plt.plot(self.stamp,
+                            self.ratio,
+                            linewidth=0.5,
+                            color='blue')
+            plt.xlabel('时间')
+            plt.ylabel('比例')
+            d = len(self.stamp) // 3  # 控制横坐标间隔数量
+            plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(d))  # 横坐标密度
+        else:
+            line.set_title('没有捕获到DNS报文!')
         plt.tight_layout()
-        # plt.savefig(defaultp)     # 保存，或显示出来
         plt.show()
-
-
-if __name__ == '__main__':
-    s = r'../test1.pcap'  # input('请输入文件路径')
-    a = pcap()
-    a.sum(s)
-    a.pic()
